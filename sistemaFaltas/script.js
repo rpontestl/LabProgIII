@@ -1,6 +1,5 @@
 
-const alunos=  [{sfc:'1º Ten',nomeComp:'ALEXANDER DAMITZ PINHEIRO',nomeG:'Damitz',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/102021613.jpg'},
-                {sfc:'Al Mil',nomeComp:'ANA LIVIA MATOS MUNIZ',nomeG:'Ana Livia',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020524.jpg'},
+const alunos=  [{sfc:'Al Mil',nomeComp:'ANA LIVIA MATOS MUNIZ',nomeG:'Ana Livia',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020524.jpg'},
                 {sfc:'Al Mil',nomeComp:'CARLOS HENRICCO RABELO DE QUEIROZ',nomeG:'Queiroz',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020475.jpg'},
                 {sfc:'Al Mil',nomeComp:'DANIEL AMBROZIO BRETHERICK MARQUES',nomeG:'Bretherick',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020476.jpg'},
                 {sfc:'Al Mil',nomeComp:'DANIEL BATISTA CUADROS',nomeG:'Cuadros',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020477.jpg'},
@@ -25,17 +24,26 @@ const alunos=  [{sfc:'1º Ten',nomeComp:'ALEXANDER DAMITZ PINHEIRO',nomeG:'Damit
                 {sfc:'Al Civ',nomeComp:'MATEUS LIMA SILVEIRA',nomeG:'Mateus Lima',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302019428.jpg'},
                 {sfc:'Al Civ',nomeComp:'MATHEUS ANDRADE BARRETO',nomeG:'Andrade',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020563.jpg'},
                 {sfc:'Al Civ',nomeComp:'PAMELLA ATANES SILVA',nomeG:'Pamella',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020564.jpg'},
-                {sfc:'Al Civ',nomeComp:'RAFAEL CANGUSSÚ FERREIRA',nomeG:'Cangussú',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020566.jpg'}];
+                {sfc:'Al Civ',nomeComp:'RAFAEL CANGUSSÚ FERREIRA',nomeG:'Cangussú',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020566.jpg'},
+                {sfc:'1º Ten',nomeComp:'ALEXANDER DAMITZ PINHEIRO',nomeG:'Damitz',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/102021613.jpg'}];
 
 var presentList = new Array();
+var currentOption = 'None';
 
 $(document).ready(function() {
-	$('#filtrar').change(function() {
+	$('#filtrar').click(function() {
         var option = document.querySelector('#filtrar')
-        $('.card').remove();
-        let filtro = option.value
-        if(filtro!='None')
-            gerarCards(filtro)
+        if(currentOption == option.value){
+
+        }
+        else{
+            $('.card').remove();
+            let filtro = option.value
+            currentOption = filtro;
+            if(filtro!='None')
+                gerarCards(filtro)
+        }
+        
 	});
 });
 
@@ -43,6 +51,7 @@ $(document).ready(function() {
 function alternaEstado(nomeGuerra){
     let id = '#'+nomeGuerra;
     console.log(id);
+    nomeGuerra = nomeGuerra.replace("_"," ");
     if(presentList.includes(nomeGuerra)){
         let indice = presentList.indexOf(nomeGuerra);
         presentList.splice(indice,1);
@@ -72,6 +81,53 @@ function gerarCards(filtro){
         $container.append($card);
        }
     }
+}
+
+function arrayToCsv(data) {
+    const csvRows = [];
+    for (let i = 0; i < data.length; i++) {
+      const row = data[i].join(',');
+      csvRows.push(row);
+    }
+    return csvRows.join('\n');
+  }
+
+function gerarFaltas(){
+    const meuForm = document.getElementById('meuForm');
+    var data = meuForm.elements.data.value; 
+    var local = meuForm.elements.local.value;
+
+    var presentes = new Array();
+    var ausentes = new Array();
+
+    for(let integrante of alunos){
+        if(presentList.includes(integrante.nomeG))
+            presentes.push(integrante.nomeG);
+        else
+            ausentes.push(integrante.nomeG);  
+    }
+
+    let i = 0;
+    var arquivo = new Array();
+    arquivo.push(['Presentes','Faltosos']);
+
+    while((i<ausentes.length)||(i<presentes.length)){
+        if(i>=ausentes.length) arquivo.push([presentes[i],'']);
+        else if(i>=presentes.length) arquivo.push(['',ausentes[i]]);
+        else arquivo.push([presentes[i],ausentes[i]]);
+        i+=1;
+    }
+    
+
+    const csvContent = arrayToCsv(arquivo);
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodedUri);
+    link.setAttribute('download', 'arquivo-'+data+'-'+local+'.csv');
+    document.body.appendChild(link);
+
+    // Clique no link para iniciar o download do arquivo
+    link.click();
 }
 
 
