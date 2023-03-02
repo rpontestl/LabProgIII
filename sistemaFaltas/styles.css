@@ -23,11 +23,11 @@ body {
     top:15%;
   }
   .container {
-  max-width: 84%;
+  width: 84%;
   margin: 0 auto;
   position: absolute;
   top:20%;
-  left:8%;
+  left:4%;
   padding: 60px;
   display: flex;
   flex-wrap: wrap;
