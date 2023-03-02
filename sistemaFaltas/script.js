@@ -52,7 +52,7 @@ function alternaEstado(nomeGuerra){
     if(presentList.includes(nomeGuerra)){
         let indice = presentList.indexOf(nomeGuerra);
         presentList.splice(indice,1);
-        $(id).css("background-color","white");
+        $(id).css("background-color","rgba(255, 255, 255, 0.8)");
     }
     else{
         presentList.push(nomeGuerra)
@@ -66,7 +66,6 @@ function gerarCards(filtro){
         var $container = $('.container');
         let nomeSemEspaço = integrantes.nomeG.replace(" ","_");
         var $card = $('<div class="card" id="'+nomeSemEspaço+'" onclick="alternaEstado(\''+nomeSemEspaço+'\')" >');
-        console.log('<div class="card" id="'+nomeSemEspaço+'" onclick="alternaEstado(\''+nomeSemEspaço+'\')" >')
         var $img = $('<img src="'+integrantes.urlFoto+'" alt="Nova Imagem">');
         var $description = $('<div class="description">');
         var $NomeGuerra = $('<h2>'+integrantes.sfc+' '+ integrantes.nomeG+'</h2>');

@@ -3,26 +3,49 @@
 
 body {
   font-family: Arial, sans-serif;
+  background-color: rgb(242, 242, 242);
   }
-  
+  #cabecalho{
+    background-color: rgb(64, 135, 210);
+    width: 100%;
+    height:13%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    color: cornsilk;
+    position: absolute;
+    top:0px;
+    left:0px;
+    padding-left: 5%;
+    display: flex;
+    align-items: center;
+  }
+  #meuForm{
+    position: absolute;
+    top:15%;
+  }
   .container {
-  max-width: 960px;
+  max-width: 84%;
   margin: 0 auto;
-  padding: 20px;
+  position: absolute;
+  top:20%;
+  left:8%;
+  padding: 60px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+
   }
   
   .card {
-  width: 22%;
-  height: 30%;
+  width: 15%;
+  height: 35%;
+  margin-right: 30px;
   margin-bottom: 40px;
-  background-color: #ffffff5e;
+  background-color: rgba(255, 255, 255, 0.8);;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   text-align: center;
-  border: 2px solid rgba(0, 0, 0, 0.534);
+  border: 2px solid rgba(0, 0, 0, 0.396);
   overflow: hidden;
+  border-radius: 5px;
   }
 
   .card img {
@@ -33,15 +56,14 @@ body {
   }
   
   .description {
-  padding: 10px;
+    padding: 10px;
   }
   
   .description h2 {
     font-size: medium;
-  margin-bottom: 10px;
+    margin-bottom: 10px;
   }
   .description h3 {
     font-size: small;
-    margin-bottom: 10px;
-    }
+  }
   
