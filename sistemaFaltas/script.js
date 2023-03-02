@@ -9,9 +9,9 @@ const alunos=  [{sfc:'Al Mil',nomeComp:'ANA LIVIA MATOS MUNIZ',nomeG:'Ana Livia'
                 {sfc:'Al Mil',nomeComp:'GIULIO BRONSON SIQUEIRA DE OLIVEIRA',nomeG:'Bronson',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020507.jpg'},
                 {sfc:'Al Mil',nomeComp:'JOSEPH INÁCIO VIEIRA OLIVEIRA GOMES',nomeG:'Joseph Vieira',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020486.jpg'},
                 {sfc:'Al Mil',nomeComp:'LUCAS PINAFI CARVALHO',nomeG:'Pinafi',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020534.jpg'},
-                {sfc:'Al Mil',nomeComp:'RAFAEL CAVALCANTE TIMBÓ',nomeG:'Timbó',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020537.jpg'},
+                {sfc:'Al Mil',nomeComp:'RAFAEL CAVALCANTE TIMBÓ',nomeG:'Timbo',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020537.jpg'},
                 {sfc:'Al Mil',nomeComp:'RAFAEL PONTES TENÓRIO LIMA',nomeG:'Pontes',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020493.jpg'},
-                {sfc:'Al Mil',nomeComp:'RENATO DA PAIXÃO ALVES',nomeG:'Paixão',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020538.jpg'},
+                {sfc:'Al Mil',nomeComp:'RENATO DA PAIXÃO ALVES',nomeG:'Paixao',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020538.jpg'},
                 {sfc:'Al Mil',nomeComp:'RICHARD DE CARVALHO GONÇALVES MELLO',nomeG:'Richard',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020539.jpg'},
                 {sfc:'Al Mil',nomeComp:'SAMUEL BARBOSA E SILVA',nomeG:'Barbosa',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020540.jpg'},
                 {sfc:'Al Mil',nomeComp:'THIAGO OLIVEIRA JUCA VASCONCELOS',nomeG:'vasconcelos',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020541.jpg'},
@@ -24,7 +24,7 @@ const alunos=  [{sfc:'Al Mil',nomeComp:'ANA LIVIA MATOS MUNIZ',nomeG:'Ana Livia'
                 {sfc:'Al Civ',nomeComp:'MATEUS LIMA SILVEIRA',nomeG:'Mateus Lima',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302019428.jpg'},
                 {sfc:'Al Civ',nomeComp:'MATHEUS ANDRADE BARRETO',nomeG:'Andrade',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020563.jpg'},
                 {sfc:'Al Civ',nomeComp:'PAMELLA ATANES SILVA',nomeG:'Pamella',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020564.jpg'},
-                {sfc:'Al Civ',nomeComp:'RAFAEL CANGUSSÚ FERREIRA',nomeG:'Cangussú',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020566.jpg'},
+                {sfc:'Al Civ',nomeComp:'RAFAEL CANGUSSÚ FERREIRA',nomeG:'Cangussu',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/302020566.jpg'},
                 {sfc:'1º Ten',nomeComp:'ALEXANDER DAMITZ PINHEIRO',nomeG:'Damitz',urlFoto:'http://servsdsv1.ime.eb.br/fotospessoal/102021613.jpg'}];
 
 var presentList = new Array();
@@ -33,9 +33,7 @@ var currentOption = 'None';
 $(document).ready(function() {
 	$('#filtrar').click(function() {
         var option = document.querySelector('#filtrar')
-        if(currentOption == option.value){
-
-        }
+        if(currentOption == option.value);
         else{
             $('.card').remove();
             let filtro = option.value
@@ -43,7 +41,6 @@ $(document).ready(function() {
             if(filtro!='None')
                 gerarCards(filtro)
         }
-        
 	});
 });
 
@@ -86,7 +83,7 @@ function gerarCards(filtro){
 function arrayToCsv(data) {
     const csvRows = [];
     for (let i = 0; i < data.length; i++) {
-      const row = data[i].join(',');
+      const row = data[i].join(';');
       csvRows.push(row);
     }
     return csvRows.join('\n');
@@ -94,7 +91,7 @@ function arrayToCsv(data) {
 
 function gerarFaltas(){
     const meuForm = document.getElementById('meuForm');
-    var data = meuForm.elements.data.value; 
+    var day = meuForm.elements.data.value; 
     var local = meuForm.elements.local.value;
 
     var presentes = new Array();
@@ -108,26 +105,29 @@ function gerarFaltas(){
     }
 
     let i = 0;
-    var arquivo = new Array();
-    arquivo.push(['Presentes','Faltosos']);
+    var data = new Array();
+    data.push(['Presentes','Faltosos']);
 
     while((i<ausentes.length)||(i<presentes.length)){
-        if(i>=ausentes.length) arquivo.push([presentes[i],'']);
-        else if(i>=presentes.length) arquivo.push(['',ausentes[i]]);
-        else arquivo.push([presentes[i],ausentes[i]]);
+        if(i>=ausentes.length) data.push([presentes[i],'']);
+        else if(i>=presentes.length) data.push(['',ausentes[i]]);
+        else data.push([presentes[i],ausentes[i]]);
         i+=1;
     }
-    
 
-    const csvContent = arrayToCsv(arquivo);
-    const encodedUri = encodeURI(csvContent);
+    const csvContent = arrayToCsv(data);
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const link = document.createElement('a');
-    link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodedUri);
-    link.setAttribute('download', 'arquivo-'+data+'-'+local+'.csv');
+    
+    link.href = URL.createObjectURL(blob);
+    link.download = 'Presença-'+day+'-'+local+'.csv';
+
     document.body.appendChild(link);
 
-    // Clique no link para iniciar o download do arquivo
+    // Clique no link para iniciar o download do data
     link.click();
+
+    document.body.removeChild(link);
 }
 
 
